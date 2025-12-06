@@ -3,6 +3,7 @@ import { Ghost } from "./ghost.js";
 import { Cake } from "./cake.js";
 import { Asteroid } from "./asteroid.js";
 import { Bullet } from "./bullet.js";
+import { Confetti } from "./confetti.js";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -23,6 +24,7 @@ const overlayMessage = document.getElementById("overlayMessage");
 const restartBtn = document.getElementById("restartBtn");
 const timeSurvivedSpan = document.getElementById("timeSurvived");
 const destroyedSpan = document.getElementById("destroyedCount");
+const progresSpan = document.getElementById("progressBar");
 
 const btnLeft = document.getElementById("btnLeft");
 const btnRight = document.getElementById("btnRight");
@@ -56,6 +58,7 @@ let player;
 let bullets;
 let asteroids;
 let ghosts;
+let confetti = [];
 let cake = null;
 let cakeSpawned = false;
 let waterMode = false;
@@ -65,7 +68,7 @@ let gameRunning = true;
 let totalTime = 0;
 let destroyedCount = 0;
 
-const CAKE_SPAWN_TIME = 18; // след колко секунди се появява тортата
+const CAKE_SPAWN_TIME = 10; // when cake appear
 
 const keys = {
   left: false,
@@ -106,6 +109,7 @@ function resetGame() {
   bullets = [];
   asteroids = [];
   ghosts = [];
+  confetti = [];
   cake = null;
   cakeSpawned = false;
   waterMode = false;
@@ -153,6 +157,12 @@ function spawnBullet() {
   bullets.push(new Bullet(x, y, width, height, speed, canvas));
 }
 
+function spawnConfetti(cx, cy) {
+  for (let i = 0; i < 80; i++) {
+    confetti.push(new Confetti(cx, cy));
+  }
+}
+
 function rectsIntersect(a, b) {
   return !(
     a.x + a.width < b.x ||
@@ -180,13 +190,22 @@ function circleRectIntersect(circle, rect) {
 function endGame({ success = false, messageOverride = null } = {}) {
   gameRunning = false;
   if (success) {
-    overlayTitle.textContent = "🎉 ТОРТАТА Е ИЗГАСЕНА!";
-    overlayMessage.textContent =
-      messageOverride || "Great job! You saved the day!";
+
+    overlayTitle.textContent = "🎉 The cake is extinguished! 🎉";
+    overlayMessage.textContent = messageOverride || "Great job! You saved the day!";
+    const w = canvas.width / window.devicePixelRatio;
+    const h = canvas.height / window.devicePixelRatio;
+    spawnConfetti(w * 0.25, h * 0.25);
+    spawnConfetti(w * 0.5, h * 0.2);
+    spawnConfetti(w * 0.75, h * 0.25);
+    setTimeout(() => {
+      overlay.classList.add("visible");
+    }, 3000);
+
   } else if (messageOverride) {
     overlayMessage.textContent = messageOverride;
+    overlay.classList.add("visible");
   }
-  overlay.classList.add("visible");
 }
 
 function maybePlayerSpeak() {
@@ -205,11 +224,19 @@ function maybePlayerSpeak() {
 
 // check for collisions, update positions
 function update(delta) {
+  
+  const dt = delta / 1000;
+
+  confetti.forEach((c) => c.update(dt));
+  confetti = confetti.filter((c) => c.life > 0);
+
   if (!gameRunning) return;
 
-  const dt = delta / 1000;
   totalTime += dt;
   timeSurvivedSpan.textContent = totalTime.toFixed(1);
+
+  let progress = (totalTime / CAKE_SPAWN_TIME) * 100 ;
+  if(progresSpan) progresSpan.textContent = Math.min(Math.floor(progress), 100);
 
   // Спауниране на тортата + включване на water-mode
   if (!cakeSpawned && totalTime >= CAKE_SPAWN_TIME) {
@@ -236,7 +263,7 @@ function update(delta) {
     if (player.cooldown < 0) player.cooldown = 0;
   }
 
-  maybePlayerSpeak();
+  // maybePlayerSpeak();
 
   // spawn-и
   if (Math.random() < 0.035) spawnAsteroid();
@@ -410,6 +437,8 @@ function draw() {
   asteroids.forEach((a) => { a.draw(ctx) }); // asteroids
   ghosts.forEach((g) => g.draw(ctx)); // ghost
   if (cake) cake.draw(ctx); // cake
+  confetti.forEach((c) => c.draw(ctx)); // confetti
+  // ctx.globalAlpha = 1;
 }
 
 function gameLoop(timestamp) {

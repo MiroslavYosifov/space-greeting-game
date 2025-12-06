@@ -30,7 +30,8 @@ export class Ghost {
             return;
         }
         if (Math.random() < 0.003) { // рядко
-            const lines = ["ㅋㅋㅋ", "헉!", "앗?", "어디가?"];
+            // const lines = ["ㅋㅋㅋ", "헉!", "앗?", "어디가?"];
+            const lines = ["ㅋㅋㅋ"];
             this.bubbleText = lines[Math.floor(Math.random() * lines.length)];
             this.bubbleTimer = 120; // ~2 секунди
         }

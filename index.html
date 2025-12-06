@@ -14,20 +14,22 @@
     <canvas id="gameCanvas"></canvas>
 
     <div class="hud">
-      <div class="hud-top">
+      <div class="hud-top" >
         <div class="hud-box">
           <div class="dot"></div>
-          <div>
-            <div class="hud-label">Капитан</div>
-            <div class="hud-value">Birthday Pilot</div>
-          </div>
+          <div class="hud-label">Captain</div>
+          <div class="hud-value">Birthday Pilot</div> 
         </div>
         <div class="hud-box">
-          <div class="hud-label">Оцеляване</div>
+          <div class="hud-label">Progress</div>
+          <div class="hud-value"><span id="progressBar">0</span>%</div>
+        </div>
+        <div class="hud-box">
+          <div class="hud-label">Time</div>
           <div class="hud-value"><span id="timeSurvived">0.0</span>s</div>
         </div>
         <div class="hud-box">
-          <div class="hud-label">Унищожени</div>
+          <div class="hud-label">Destroyed</div>
           <div class="hud-value"><span id="destroyedCount">0</span></div>
         </div>
       </div>

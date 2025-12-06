@@ -7,7 +7,7 @@ export class Cake {
         this.width = 90;
         this.height = 70;
         this.x = w / 2 - this.width / 2;
-        this.y = 40;
+        this.y = 100;
         this.speedX = 2.0;
         this.hp = 16;
         this.maxHp = 16;
