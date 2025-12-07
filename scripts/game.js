@@ -5,10 +5,12 @@ import { Asteroid } from "./asteroid.js";
 import { Bullet } from "./bullet.js";
 import { Confetti } from "./confetti.js";
 
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
 let countDownTimerId;
 let hasStartGame = false;
+let PLAYER_NAME = "Player";
+
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
 function resizeCanvas() {
   const rect = canvas.parentElement.getBoundingClientRect();
@@ -31,8 +33,10 @@ const countDownTimer = document.getElementById("startTimer");
 const countDownTimerTxt = document.getElementById("startTimerTxt");
 
 const gameContainer = document.getElementById('gameContainer');
-const fullscreenBtn = document.getElementById('fullscreenBtn');
-console.log("Fullscreen button:", fullscreenBtn);
+const playerNameInput = document.getElementById('playerNameInput');
+const startForm = document.getElementById('startForm');
+const fullscreenBtn = document.getElementById('startBtn');
+const playerNameFields = document.querySelectorAll('[data-player-name]');
 fullscreenBtn.addEventListener('click', startGame);
 
 const btnLeft = document.getElementById("btnLeft");
@@ -177,7 +181,7 @@ function spawnBullet() {
   const y = player.y;
   const width = 6;
   const height = 18;
-  const speed = waterMode ? 6 : 7;
+  const speed = waterMode ? 7 : 11;
   bullets.push(new Bullet(x, y, width, height, speed, canvas));
 }
 
@@ -214,11 +218,11 @@ function circleRectIntersect(circle, rect) {
 function endGame({ success = false, messageOverride = null } = {}) {
   gameRunning = false;
   if (success) {
-    overlayTitle.innerHTML = "<h1>Mission completed! 🎉</h1> \n <h1>The cake is extinguished!</h1>";
+    overlayTitle.innerHTML = `<h1>Mission completed! ${PLAYER_NAME} 🎉</h1> \n <h1>The cake is extinguished!</h1>`;
     overlayMessage.innerHTML = `
       <p>Great job! You saved the day! 🚀</p>
-      <h2>Level Up! +1 Year, +100 Happiness! ✨✨✨</h2>
-    `;
+      <h2>Level Up! +1 Year, +100 Happiness! 🍀</h2>
+      <h2>Forward into the endless galaxies!🌠🌌✨</h2>`;
     const w = canvas.width / window.devicePixelRatio;
     const h = canvas.height / window.devicePixelRatio;
     spawnConfetti(w * 0.25, h * 0.25);
@@ -229,11 +233,11 @@ function endGame({ success = false, messageOverride = null } = {}) {
     }, 3000);
 
   } else if (messageOverride) {
-    overlayTitle.innerHTML = "<h1>Mission failed!</h1>";
+    overlayTitle.innerHTML = `<h1>Mission failed! ${PLAYER_NAME}</h1>`;
     overlayMessage.innerHTML = `<h2>Try again-!</h2>`;
     overlay.classList.add("visible");
   } else {
-    overlayTitle.innerHTML = "<h1>Mission failed!</h1>";
+    overlayTitle.innerHTML = `<h1>Mission failed! ${PLAYER_NAME}</h1>`;
     overlayMessage.innerHTML = `<h2>Try again-!</h2>`;
     overlay.classList.add("visible");
   }
@@ -246,8 +250,8 @@ function maybePlayerSpeak() {
     if (player.bubbleTimer <= 0) player.bubble = null;
     return;
   }
-  if (Math.random() < 0.002) {
-    const lines = ["화이팅!", "가보자!", "좋았어!", "ㅋㅋㅋ"];
+  if (Math.random() < 0.002) { 
+    const lines = [];
     player.bubble = lines[Math.floor(Math.random() * lines.length)];
     player.bubbleTimer = 100;
   }
@@ -297,8 +301,8 @@ function update(delta) {
   // maybePlayerSpeak();
 
   // spawn-и
-  if (Math.random() < 0.015) spawnAsteroid();
-  if (Math.random() < 0.02) spawnGhost();
+  if (Math.random() < 0.01) spawnAsteroid();
+  if (Math.random() < 0.018) spawnGhost();
 
   // bullets
   bullets.forEach((b) => { b.update(delta) });
@@ -499,14 +503,25 @@ restartBtn.addEventListener("click", () => {
 
 function startGame(e) {
   console.log("Toggling fullscreen");
-  fullscreenBtn.style.display = "none";
+  startForm.style.display = "none";
+  PLAYER_NAME = playerNameInput.value || "Player";
+  for (const playerNameField of playerNameFields) {
+    playerNameField.textContent = PLAYER_NAME;
+  }
   const elem = gameContainer;
-  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-    if (elem.requestFullscreen) elem.requestFullscreen();
-    else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-  } else {
-    if (document.exitFullscreen) document.exitFullscreen();
-    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  
+  try {
+    if (window.screen.width < 1200) {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (elem.requestFullscreen) elem.requestFullscreen();
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    }
+  } catch (error) {
+    
   }
 
   loadGame();  

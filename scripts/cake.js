@@ -41,10 +41,12 @@ export class Cake {
         const h = this.height;
 
         // долен слой торта
+        // "#f97316";
         ctx.fillStyle = "#f97316";
         ctx.fillRect(x, y + 24, w, h - 24);
 
         // глазура
+        // "#fde68a";
         ctx.fillStyle = "#fde68a";
         ctx.fillRect(x + 4, y + 18, w - 8, 14);
 

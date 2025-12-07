@@ -18,7 +18,7 @@
         <div class="hud-box">
           <div class="dot"></div>
           <div class="hud-label">Captain</div>
-          <!-- <div class="hud-value">Pilot</div>  -->
+          <div class="hud-value" data-player-name>Player</div> 
         </div>
         <div class="hud-box">
           <div class="hud-label">Progress</div>
@@ -35,8 +35,12 @@
 
       </div>
 
-      <div class="hud-center" id="fullscreenBtn">
-        <div class="hud-box">
+      <div class="hud-center" id="startForm">
+        <div class="input-wrap">
+          <label for="playerName">Player Name:</label>
+          <input type="text" id="playerNameInput" placeholder="Enter player name:">
+        </div>
+        <div class="hud-box" id="startBtn">
           <div class="hud-label">Start</div>
         </div>
       </div>
