@@ -59,7 +59,7 @@ export class Cake {
         ctx.closePath();
         ctx.fill();
 
-        // 🔥 анимирани свещички
+        // анимирани свещички
         const candleCount = 3;
         const step = w / (candleCount + 1);
         const hpRatio = Math.max(this.hp, 0) / this.maxHp;
@@ -143,7 +143,7 @@ export class Cake {
 
         // bubble
         if (this.bubble && this.bubbleTimer > 0) {
-          drawSpeechBubble(ctx, this.x + this.width / 2 - 30, this.y - 70, this.bubble);
+          drawSpeechBubble(ctx, this.x + this.width, this.y - 70, this.bubble);
         }
       }
 }

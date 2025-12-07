@@ -1,8 +1,8 @@
 export function drawSpeechBubble(ctx, x, y, text) {
     ctx.save();
     ctx.font = "14px system-ui";
-    const padding = 6;
-    const width = ctx.measureText(text).width + padding * 2;
+    const padding = 15;
+    const width = ctx.measureText(text).width + padding * 2.5;
     const height = 24;
 
     ctx.fillStyle = "rgba(255,255,255,0.95)";

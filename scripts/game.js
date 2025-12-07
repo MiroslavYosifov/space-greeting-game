@@ -7,6 +7,8 @@ import { Confetti } from "./confetti.js";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+let countDownTimerId;
+let hasStartGame = false;
 
 function resizeCanvas() {
   const rect = canvas.parentElement.getBoundingClientRect();
@@ -25,6 +27,8 @@ const restartBtn = document.getElementById("restartBtn");
 const timeSurvivedSpan = document.getElementById("timeSurvived");
 const destroyedSpan = document.getElementById("destroyedCount");
 const progresSpan = document.getElementById("progressBar");
+const countDownTimer = document.getElementById("startTimer");
+const countDownTimerTxt = document.getElementById("startTimerTxt");
 
 const gameContainer = document.getElementById('gameContainer');
 const fullscreenBtn = document.getElementById('fullscreenBtn');
@@ -475,21 +479,22 @@ function gameLoop(timestamp) {
 }
 
 window.addEventListener("resize", () => {
-  resizeCanvas();
-  resetGame(); // започва наново, но нищо не се чупи
+  loadGame();
 });
 
 document.addEventListener("fullscreenchange", () => {
-  resizeCanvas();
-  resetGame();  
+  loadGame();
 });
 
+
+restartBtn.addEventListener("click", () => {
+  loadGame();
+}); 
 
 function startGame(e) {
   console.log("Toggling fullscreen");
   fullscreenBtn.style.display = "none";
   const elem = gameContainer;
-
   if (!document.fullscreenElement && !document.webkitFullscreenElement) {
     if (elem.requestFullscreen) elem.requestFullscreen();
     else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
@@ -498,9 +503,31 @@ function startGame(e) {
     else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
   }
 
-  requestAnimationFrame(gameLoop);  
+  loadGame();  
 }
 
-restartBtn.addEventListener("click", () => {
-  resetGame();
-}); 
+function loadGame() {
+
+  clearInterval(countDownTimerId);
+  overlay.classList.remove("visible");
+  let count = 3;
+  countDownTimer.style.display = "block";
+  countDownTimerTxt.textContent = count;
+  countDownTimerId = setInterval(() => {
+    count--;
+    countDownTimerTxt.textContent = count;
+    if(count == 0) {
+      console.log()
+      countDownTimer.style.display = "none";
+      clearInterval(countDownTimerId);
+      resizeCanvas();
+      resetGame();
+      if(!hasStartGame) {
+        console.log("111 Starting game loop", hasStartGame);
+        hasStartGame = true;
+        requestAnimationFrame(gameLoop);
+      }
+    }
+  }, 1000);
+
+}
