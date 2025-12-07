@@ -7,6 +7,7 @@ import { Confetti } from "./confetti.js";
 
 let countDownTimerId;
 let hasStartGame = false;
+let hasStartBtnPress = false;
 let PLAYER_NAME = "Player";
 
 const canvas = document.getElementById("gameCanvas");
@@ -301,7 +302,7 @@ function update(delta) {
   // maybePlayerSpeak();
 
   // spawn-и
-  if (Math.random() < 0.01) spawnAsteroid();
+  if (Math.random() < 0.0075) spawnAsteroid();
   if (Math.random() < 0.015) spawnGhost();
 
   // bullets
@@ -489,10 +490,12 @@ function gameLoop(timestamp) {
 }
 
 window.addEventListener("resize", () => {
+  if(!hasStartBtnPress) return;
   loadGame();
 });
 
 document.addEventListener("fullscreenchange", () => {
+  if(!hasStartBtnPress) return;
   loadGame();
 });
 
@@ -502,6 +505,7 @@ restartBtn.addEventListener("click", () => {
 }); 
 
 function startGame(e) {
+  hasStartBtnPress = true;
   startForm.style.display = "none";
   PLAYER_NAME = playerNameInput.value || "Player";
   for (const playerNameField of playerNameFields) {
