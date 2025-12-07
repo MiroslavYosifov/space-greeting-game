@@ -9,14 +9,14 @@ export class Ghost {
         this.height = 32;
 
         const colors = [
-            "rgba(255, 120, 220, 0.9)",
+            "rgba(255, 219, 119, 0.9)",
             "rgba(120, 255, 180, 0.9)",
             "rgba(120, 180, 255, 0.9)"
-        ];
+        ] ;
         this.color = colors[Math.floor(Math.random() * colors.length)];
 
-        this.speedY = 1.4 + Math.random() * 1.2;
-        this.speedX = (Math.random() < 0.5 ? -1 : 1) * (1 + Math.random() * 1.5);
+        this.speedY = 1.2 + Math.random() * 1.1;
+        this.speedX = (Math.random() < 0.5 ? -1 : 1) * (1 + Math.random() * 1.3);
         this.phase = Math.random() * Math.PI * 2;
 
         this.bubbleText = null;

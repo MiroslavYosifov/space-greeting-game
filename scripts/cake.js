@@ -40,14 +40,20 @@ export class Cake {
         const w = this.width;
         const h = this.height;
 
+        // сянка под тортата
+        ctx.fillStyle = "rgba(2, 23, 73, 0.84)";
+        ctx.beginPath();
+        ctx.ellipse(x + w / 2, y + h + 4, w / 2, 8, 0, 0, Math.PI * 2);
+        ctx.fill();
+
         // долен слой торта
         // "#f97316";
-        ctx.fillStyle = "#f97316";
+        ctx.fillStyle = "#fc5592ff";
         ctx.fillRect(x, y + 24, w, h - 24);
 
         // глазура
         // "#fde68a";
-        ctx.fillStyle = "#fde68a";
+        ctx.fillStyle = "#fce179ff";
         ctx.fillRect(x + 4, y + 18, w - 8, 14);
 
         // капки глазура
@@ -66,18 +72,18 @@ export class Cake {
         const step = w / (candleCount + 1);
         const hpRatio = Math.max(this.hp, 0) / this.maxHp;
         const t = Date.now() / 180; // време за анимация
-
+        
         for (let i = 1; i <= candleCount; i++) {
           const cx = x + step * i;
           const cy = y + 16;
 
           // свещ
           ctx.fillStyle = "#e5e7eb";
-          ctx.fillRect(cx - 3, cy - 14, 6, 14);
+          ctx.fillRect(cx - 3, cy - 14, 8, 18);
 
           // flicker
-          const flickerY = Math.sin(t + i * 0.9) * 2;
-          const flickerX = Math.cos(t * 1.3 + i * 0.7) * 1.5;
+          const flickerY = Math.sin(t + i * 0.9) * 2.2;
+          const flickerX = Math.cos(t * 1.3 + i * 0.7) * 1.7;
 
           const baseFlame = 10 * hpRatio + 3;
           const flameHeight = baseFlame + flickerY;
@@ -115,17 +121,11 @@ export class Cake {
           ctx.fill();
         }
 
-        // сянка под тортата
-        ctx.fillStyle = "rgba(15,23,42,0.7)";
-        ctx.beginPath();
-        ctx.ellipse(x + w / 2, y + h + 6, w / 2, 8, 0, 0, Math.PI * 2);
-        ctx.fill();
-
         // текст над тортата + HP бар
         const barWidth = 140;
         const barHeight = 8;
         const barX = x + w / 2 - barWidth / 2;
-        const barY = y - 14;
+        const barY = y - 18;
 
         ctx.font = "12px system-ui";
         ctx.textAlign = "center";

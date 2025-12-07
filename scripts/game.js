@@ -128,7 +128,7 @@ function resetGame() {
     y: startY,
     width: 40,
     height: 40,
-    speed: 5,
+    speed: 8,
     cooldown: 0,
     bubble: null,
     bubbleTimer: 0,
@@ -502,7 +502,6 @@ restartBtn.addEventListener("click", () => {
 }); 
 
 function startGame(e) {
-  console.log("Toggling fullscreen");
   startForm.style.display = "none";
   PLAYER_NAME = playerNameInput.value || "Player";
   for (const playerNameField of playerNameFields) {
@@ -538,13 +537,11 @@ function loadGame() {
     count--;
     countDownTimerTxt.textContent = count;
     if(count == 0) {
-      console.log()
       countDownTimer.style.display = "none";
       clearInterval(countDownTimerId);
       resizeCanvas();
       resetGame();
       if(!hasStartGame) {
-        console.log("111 Starting game loop", hasStartGame);
         hasStartGame = true;
         requestAnimationFrame(gameLoop);
       }
