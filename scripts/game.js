@@ -302,7 +302,7 @@ function update(delta) {
 
   // spawn-и
   if (Math.random() < 0.01) spawnAsteroid();
-  if (Math.random() < 0.018) spawnGhost();
+  if (Math.random() < 0.015) spawnGhost();
 
   // bullets
   bullets.forEach((b) => { b.update(delta) });
