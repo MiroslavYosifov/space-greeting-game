@@ -214,8 +214,11 @@ function circleRectIntersect(circle, rect) {
 function endGame({ success = false, messageOverride = null } = {}) {
   gameRunning = false;
   if (success) {
-    overlayTitle.textContent = "🎉 The cake is extinguished! 🎉";
-    overlayMessage.textContent = messageOverride || "Great job! You saved the day!";
+    overlayTitle.innerHTML = "<h1>Mission completed! 🎉</h1> \n <h1>The cake is extinguished!</h1>";
+    overlayMessage.innerHTML = `
+      <p>Great job! You saved the day! 🚀</p>
+      <h2>Level Up! +1 Year, +100 Happiness! ✨✨✨</h2>
+    `;
     const w = canvas.width / window.devicePixelRatio;
     const h = canvas.height / window.devicePixelRatio;
     spawnConfetti(w * 0.25, h * 0.25);
@@ -226,9 +229,12 @@ function endGame({ success = false, messageOverride = null } = {}) {
     }, 3000);
 
   } else if (messageOverride) {
-    overlayMessage.textContent = messageOverride;
+    overlayTitle.innerHTML = "<h1>Mission failed!</h1>";
+    overlayMessage.innerHTML = `<h2>Try again-!</h2>`;
     overlay.classList.add("visible");
   } else {
+    overlayTitle.innerHTML = "<h1>Mission failed!</h1>";
+    overlayMessage.innerHTML = `<h2>Try again-!</h2>`;
     overlay.classList.add("visible");
   }
 }
