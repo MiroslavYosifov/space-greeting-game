@@ -24,13 +24,52 @@ canvas { width: 100%; height: 100%; display: block; background: transparent; }
 .touch-btn { height: 44px; flex: 1; pointer-events: auto; padding: 5px 6px; border-radius: 999px; border: 1px solid rgba(148, 163, 184, 0.6); background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.95)); color: #e5e7eb; font-size: 22px; text-transform: uppercase; letter-spacing: 0.08em; display: flex; align-items: center; justify-content: center; opacity: 0.9; user-select: none; }
 .touch-btn:active { transform: scale(0.97); background: radial-gradient(circle at top, rgba(37, 99, 235, 0.7), rgba(15, 23, 42, 0.98)); }
 .touch-btn.fire { flex: 1.4; border-color: rgba(248, 250, 252, 0.8); background: radial-gradient(circle at top, rgba(248, 250, 252, 0.9), rgba(148, 163, 184, 0.95)); color: #020617; font-weight: 600; }
+.touch-btn.fire.shoot-anim { animation: fireFlash 0.12s ease-out; }
+.touch-btn.move.shoot-anim { animation: moveFlash 0.12s ease-out; }
+
+@keyframes fireFlash {
+  0% {
+    transform: scale(1);
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 1), rgba(148, 163, 184, 0.95));
+  }
+  50% {
+    transform: scale(1.15);
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 0.9), rgba(203, 213, 225, 1));
+  }
+  100% {
+    transform: scale(1);
+    background: radial-gradient(circle at top, rgba(248, 250, 252, 0.9), rgba(148, 163, 184, 0.95));
+  }
+}
+
+@keyframes moveFlash {
+  0% {
+    transform: scale(1);
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 0.1), rgba(148, 163, 184, 0.2));
+  }
+  50% {
+    transform: scale(1.15);
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 0.1), rgba(203, 213, 225, 0.2));
+  }
+  100% {
+    transform: scale(1);
+    background: radial-gradient(circle at top, rgba(248, 250, 252, 0.1), rgba(148, 163, 184, 0.2));
+  }
+}
+
 
 @media (max-width: 768px) {
   .touch-controls { display: flex; }
   .hud-bottom { display: none; }
 }
 
+@media (orientation: portrait) {
+  .touch-controls { display: flex; }
+  .hud-bottom { display: none; } 
+  .game-container {aspect-ratio: 9 / 16;} 
+}
+
 @media (orientation: landscape) {
   .touch-controls { display: flex; }
-  .hud-bottom { display: none; }
+  .hud-bottom { display: none; } 
 }

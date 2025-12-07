@@ -54,9 +54,24 @@ function attachTouch(el, setter) {
   });
 }
 
-attachTouch(btnLeft, (v) => (touchLeft = v));
-attachTouch(btnRight, (v) => (touchRight = v));
-attachTouch(btnFire, (v) => (touchFire = v));
+attachTouch(btnLeft, (v) => {
+  touchLeft = v;
+  if (v) triggerFireButtonAnim(btnLeft);
+});
+attachTouch(btnRight, (v) => {
+  touchRight = v;
+  if (v) triggerFireButtonAnim(btnRight);
+});
+attachTouch(btnFire, (v) => {
+  touchFire = v;
+  if (v) triggerFireButtonAnim(btnFire);
+});
+
+function triggerFireButtonAnim(btn) {
+  btn.classList.remove("shoot-anim");
+  void btn.offsetWidth;
+  btn.classList.add("shoot-anim");
+}
 
 // Game state
 let player;
@@ -134,7 +149,7 @@ function spawnAsteroid() {
   const w = 26 + Math.random() * 24;
   const x = Math.random() * (canvas.width / window.devicePixelRatio - w);
   const y = -w;
-  const speed = 1.5 + Math.random() * 2.5;
+  const speed = 1 + Math.random() * 1.5;
   const radius = w / 2;
   const segments = 10 + Math.floor(Math.random() * 4);
   const wobble = Array.from({ length: segments }, () => 0.8 + Math.random() * 0.4);
@@ -272,7 +287,7 @@ function update(delta) {
   // maybePlayerSpeak();
 
   // spawn-и
-  if (Math.random() < 0.035) spawnAsteroid();
+  if (Math.random() < 0.015) spawnAsteroid();
   if (Math.random() < 0.02) spawnGhost();
 
   // bullets
