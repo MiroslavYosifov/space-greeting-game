@@ -30,7 +30,7 @@ export class Ghost {
             return;
         }
         if (Math.random() < 0.003) { 
-            const lines = ["ㅋㅋㅋ",  "👻", "부우!", "👀"];
+            const lines = ["ㅋㅋㅋ", "👻", "부우!", "🥳", "🎉", "🎈"];
             this.bubbleText = lines[Math.floor(Math.random() * lines.length)];
             this.bubbleTimer = 120; // ~2 секунди
         }

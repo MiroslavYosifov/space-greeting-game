@@ -97,7 +97,7 @@ let gameRunning = true;
 let totalTime = 0;
 let destroyedCount = 0;
 
-const CAKE_SPAWN_TIME = 10; // when cake appear
+const CAKE_SPAWN_TIME = 6; // when cake appear
 
 const keys = {
   left: false,
@@ -219,9 +219,9 @@ function circleRectIntersect(circle, rect) {
 function endGame({ success = false, messageOverride = null } = {}) {
   gameRunning = false;
   if (success) {
-    overlayTitle.innerHTML = `<h1>Mission completed! ${PLAYER_NAME} 🎉</h1> \n <h1>The cake is extinguished!</h1>`;
+    overlayTitle.innerHTML = `<h1>Mission completed!🥳</h1> \n <h1>The cake is extinguished!</h1>`;
     overlayMessage.innerHTML = `
-      <p>Great job! You saved the day! 🚀</p>
+      <p>Great job! You saved the day captain ${PLAYER_NAME}-! 🚀</p>
       <h2>Level Up! +1 Year, +100 Happiness! 🍀</h2>
       <h2>Forward into the endless galaxies!🌠🌌✨</h2>`;
     const w = canvas.width / window.devicePixelRatio;
@@ -234,12 +234,12 @@ function endGame({ success = false, messageOverride = null } = {}) {
     }, 3000);
 
   } else if (messageOverride) {
-    overlayTitle.innerHTML = `<h1>Mission failed! ${PLAYER_NAME}</h1>`;
-    overlayMessage.innerHTML = `<h2>Try again-!</h2>`;
+    overlayTitle.innerHTML = `<h1>Mission failed!😭</h1>`;
+    overlayMessage.innerHTML = `<h2>Try again captain ${PLAYER_NAME}-!</h2>`;
     overlay.classList.add("visible");
   } else {
-    overlayTitle.innerHTML = `<h1>Mission failed! ${PLAYER_NAME}</h1>`;
-    overlayMessage.innerHTML = `<h2>Try again-!</h2>`;
+    overlayTitle.innerHTML = `<h1>Mission failed!😭</h1>`;
+    overlayMessage.innerHTML = `<h2>Try again captain ${PLAYER_NAME}-!</h2>`;
     overlay.classList.add("visible");
   }
 }
