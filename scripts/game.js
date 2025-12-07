@@ -26,6 +26,11 @@ const timeSurvivedSpan = document.getElementById("timeSurvived");
 const destroyedSpan = document.getElementById("destroyedCount");
 const progresSpan = document.getElementById("progressBar");
 
+const gameContainer = document.getElementById('gameContainer');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+console.log("Fullscreen button:", fullscreenBtn);
+fullscreenBtn.addEventListener('click', toggleFullscreen);
+
 const btnLeft = document.getElementById("btnLeft");
 const btnRight = document.getElementById("btnRight");
 const btnFire = document.getElementById("btnFire");
@@ -190,7 +195,6 @@ function circleRectIntersect(circle, rect) {
 function endGame({ success = false, messageOverride = null } = {}) {
   gameRunning = false;
   if (success) {
-
     overlayTitle.textContent = "🎉 The cake is extinguished! 🎉";
     overlayMessage.textContent = messageOverride || "Great job! You saved the day!";
     const w = canvas.width / window.devicePixelRatio;
@@ -204,6 +208,8 @@ function endGame({ success = false, messageOverride = null } = {}) {
 
   } else if (messageOverride) {
     overlayMessage.textContent = messageOverride;
+    overlay.classList.add("visible");
+  } else {
     overlay.classList.add("visible");
   }
 }
@@ -453,7 +459,22 @@ function gameLoop(timestamp) {
   requestAnimationFrame(gameLoop);
 }
 
-requestAnimationFrame(gameLoop);
+
+function toggleFullscreen(e) {
+  console.log("Toggling fullscreen");
+  fullscreenBtn.style.display = "none";
+  resizeCanvas();
+  requestAnimationFrame(gameLoop);
+  const elem = gameContainer;
+
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    if (elem.requestFullscreen) elem.requestFullscreen();
+    else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+}
 
 restartBtn.addEventListener("click", () => {
   resetGame();

@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <div class="game-container">
+  <div class="game-container" id="gameContainer">
     <canvas id="gameCanvas"></canvas>
 
     <div class="hud">
@@ -32,8 +32,13 @@
           <div class="hud-label">Destroyed</div>
           <div class="hud-value"><span id="destroyedCount">0</span></div>
         </div>
-      </div>
 
+      </div>
+      <div class="hud-center" id="fullscreenBtn">
+        <div class="hud-box">
+          <div class="hud-label" >Start</div>
+        </div>
+      </div>
       <div class="hud-bottom">
         <span>Използвай стрелките / A,D или бутоните отдолу за движение. Space / Fire за стрелба.</span>
       </div>
