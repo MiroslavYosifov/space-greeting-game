@@ -7,7 +7,7 @@ export class Cake {
         this.width = 90;
         this.height = 70;
         this.x = w / 2 - this.width / 2;
-        this.y = 100;
+        this.y = 140;
         this.speedX = 2.0;
         this.hp = 16;
         this.maxHp = 16;
@@ -60,7 +60,7 @@ export class Cake {
         ctx.fill();
 
         // 🔥 анимирани свещички
-        const candleCount = 4;
+        const candleCount = 3;
         const step = w / (candleCount + 1);
         const hpRatio = Math.max(this.hp, 0) / this.maxHp;
         const t = Date.now() / 180; // време за анимация

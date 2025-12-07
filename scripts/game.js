@@ -29,7 +29,7 @@ const progresSpan = document.getElementById("progressBar");
 const gameContainer = document.getElementById('gameContainer');
 const fullscreenBtn = document.getElementById('fullscreenBtn');
 console.log("Fullscreen button:", fullscreenBtn);
-fullscreenBtn.addEventListener('click', toggleFullscreen);
+fullscreenBtn.addEventListener('click', startGame);
 
 const btnLeft = document.getElementById("btnLeft");
 const btnRight = document.getElementById("btnRight");
@@ -98,7 +98,7 @@ window.addEventListener("keyup", (e) => {
 
 function resetGame() {
   const startX = canvas.width / window.devicePixelRatio / 2;
-  const startY = canvas.height / window.devicePixelRatio - 70;
+  const startY = canvas.height / window.devicePixelRatio - 100;
 
   player = {
     x: startX - 20,
@@ -124,7 +124,7 @@ function resetGame() {
   totalTime = 0;
   destroyedCount = 0;
   overlay.classList.remove("visible");
-  timeSurvivedSpan.textContent = "0.0";
+  if(timeSurvivedSpan) timeSurvivedSpan.textContent = "0.0";
   destroyedSpan.textContent = "0";
 }
 
@@ -239,7 +239,7 @@ function update(delta) {
   if (!gameRunning) return;
 
   totalTime += dt;
-  timeSurvivedSpan.textContent = totalTime.toFixed(1);
+  if(timeSurvivedSpan) timeSurvivedSpan.textContent = totalTime.toFixed(1);
 
   let progress = (totalTime / CAKE_SPAWN_TIME) * 100 ;
   if(progresSpan) progresSpan.textContent = Math.min(Math.floor(progress), 100);
@@ -459,12 +459,20 @@ function gameLoop(timestamp) {
   requestAnimationFrame(gameLoop);
 }
 
+window.addEventListener("resize", () => {
+  resizeCanvas();
+  resetGame(); // започва наново, но нищо не се чупи
+});
 
-function toggleFullscreen(e) {
+document.addEventListener("fullscreenchange", () => {
+  resizeCanvas();
+  resetGame();  
+});
+
+
+function startGame(e) {
   console.log("Toggling fullscreen");
   fullscreenBtn.style.display = "none";
-  resizeCanvas();
-  requestAnimationFrame(gameLoop);
   const elem = gameContainer;
 
   if (!document.fullscreenElement && !document.webkitFullscreenElement) {
@@ -474,6 +482,8 @@ function toggleFullscreen(e) {
     if (document.exitFullscreen) document.exitFullscreen();
     else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
   }
+
+  requestAnimationFrame(gameLoop);  
 }
 
 restartBtn.addEventListener("click", () => {
