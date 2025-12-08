@@ -67,7 +67,6 @@ p { font-size: 1.125rem;}
   .touch-controls { display: flex; }
   .hud-bottom { display: none; }
 }
-
 @media (orientation: portrait) {
   .touch-controls { display: flex; }
   .hud-bottom { display: none; } 
@@ -77,6 +76,10 @@ p { font-size: 1.125rem;}
 @media (orientation: landscape) {
   .touch-controls { display: flex; }
   .hud-bottom { display: none; } 
-
 }
+@media (min-width: 1200px) {
+  .touch-controls { display: none; }
+  .hud-bottom { display: block; }
+}
+
 
