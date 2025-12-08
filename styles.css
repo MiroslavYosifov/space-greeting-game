@@ -71,10 +71,11 @@ p { font-size: 1.125rem;}
 @media (orientation: portrait) {
   .touch-controls { display: flex; }
   .hud-bottom { display: none; } 
-  .game-container {aspect-ratio: 9 / 16;} 
+  .game-container {aspect-ratio: 9 / 14;} 
 }
 
 @media (orientation: landscape) {
   .touch-controls { display: flex; }
   .hud-bottom { display: none; } 
+
 }
